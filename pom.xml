@@ -43,17 +43,44 @@
   </dependencyManagement>
 
   <dependencies>
+<!--    <dependency>-->
+<!--      <groupId>org.junit.jupiter</groupId>-->
+<!--      <artifactId>junit-jupiter-api</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+<!--    &lt;!&ndash; Optionally: parameterized tests support &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>org.junit.jupiter</groupId>-->
+<!--      <artifactId>junit-jupiter-params</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <!-- 排除冲突的JUnit版本 -->
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
-    <!-- Optionally: parameterized tests support -->
+
+
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <scope>test</scope>
+      <groupId>org.junit</groupId>
+      <artifactId>junit-bom</artifactId>
+      <version>5.8.2</version> <!-- 与Spring Boot 2.7.x兼容 -->
+      <type>pom</type>
+      <scope>import</scope>
     </dependency>
+
+
+
+
+
 <!--web依赖-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -106,7 +133,29 @@
       <artifactId>pagehelper-spring-boot-starter</artifactId>
       <version>1.4.6</version>
     </dependency>
+
+
+
+
+
+<!--    redis坐标(令牌)-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+<!--      打包插件-->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.7.5</version>
+      </plugin>
+    </plugins>
+  </build>
+
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
