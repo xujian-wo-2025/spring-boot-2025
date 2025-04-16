@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.apache.ibatis.annotations.Insert;
+import org.example.mapper.ArticleMapper;
 import org.example.mapper.CategoryMapper;
 import org.example.pojo.Category;
 import org.example.service.CategoryService;
@@ -17,6 +18,8 @@ public class CategoryServiceimpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private ArticleMapper articleMapper;
 
     @Override
     public void add(Category category) {
@@ -51,10 +54,22 @@ public class CategoryServiceimpl implements CategoryService {
         categoryMapper.update(category);
     }
 
-    @Override
-    public void delete(Integer id) {
-        Map<String, Object> map = ThreadLocalUtil.get();
-        Integer userId = (Integer) map.get("id");
-        categoryMapper.delete(userId);
+//    @Override
+//    public void delete(Integer id) {
+//        Map<String, Object> map = ThreadLocalUtil.get();
+//        Integer userId = (Integer) map.get("id");
+//
+//        categoryMapper.delete(userId);
+//    }
+@Override
+public void delete(Integer id) {
+    // 检查该分类下是否存在文章
+    int articleCount = articleMapper.countByCategoryId(id);
+    if (articleCount > 0) {
+        throw new RuntimeException("该分类下存在文章，无法删除");
     }
+    Map<String, Object> map = ThreadLocalUtil.get();
+    Integer userId = (Integer) map.get("id");
+    categoryMapper.delete(id);
+}
 }

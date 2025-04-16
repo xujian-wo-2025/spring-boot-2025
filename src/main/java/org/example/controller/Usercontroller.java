@@ -28,19 +28,23 @@ public class Usercontroller {
     private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/register")
-    public Result register(String username, String password){
+    public Result register(String username,String password){
 
+        System.out.println("接收到的用户名: " + username);
+        System.out.println("接收到的密码: " + password);
         if (username != null && username.length()>=5 && username.length()<=16 &&
             password!=null && password.length()>=5 && password.length()<=16
         ){
             User user = userService.findByUserName(username);
             if (user == null){
                 userService.register(username, password);
+                System.out.println("111111111111111"+ username + "111111111" + password);
                 return Result.success();
             }else {
                 return Result.error("该用户名已被暂用");
             }
         }else {
+            System.out.println("111111111111111111111");
             return Result.error("参数不合法");
         }
 
@@ -87,6 +91,7 @@ public class Usercontroller {
 
     @PutMapping("/update")
     public Result update(@RequestBody @Validated User user){
+        System.out.println(user);
         userService.update(user);
         return Result.success();
     }

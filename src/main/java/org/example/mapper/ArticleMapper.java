@@ -30,4 +30,7 @@ public interface ArticleMapper {
             "</where>" +
             "</script>")
     List<Article> list(Integer id, Integer categoryId, String state);
+
+    @Select("select count(*) from article where category_id = #{categoryId}")
+    int countByCategoryId(Integer categoryId);
 }
